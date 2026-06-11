@@ -112,7 +112,7 @@
             background-color: #ffee55;
         }
 
-        /* [해결3] 내용이 무제한으로 확장될 수 있도록 자바스크립트 제어용 max-height 설정 */
+        /* 내용이 무제한으로 확장될 수 있도록 자바스크립트 제어용 max-height 설정 */
         .accordion-content {
             max-height: 0;
             overflow: hidden;
@@ -197,19 +197,36 @@
             font-size: 1.1rem;
             font-weight: bold;
             color: #2c3e50;
-            margin-bottom: 5px;
+            margin-bottom: 12px;
         }
         
-        /* 사진들을 두 줄 형태로 고르게 배치하기 위한 Flexbox 컨테이너 */
-        .image-grid {
+        /* 사진 레이아웃 제어용 Flexbox 컨테이너들 */
+        .image-grid-2 {
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
             margin-top: 10px;
+            margin-bottom: 12px;
         }
-        /* 그리드 내 이미지 스타일 (반응형으로 2줄 정렬 최적화) */
-        .grid-img {
-            flex: 1 1 calc(50% - 12px); /* 한 줄에 기본적으로 2장씩 배치 */
+        .image-grid-full {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            margin-bottom: 12px;
+        }
+
+        /* 1장 꽉 채우는 큰 이미지 스타일 */
+        .full-img {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.15);
+        }
+
+        /* 한 줄에 2장씩 들어가는 이미지 스타일 */
+        .grid-img-2 {
+            flex: 1 1 calc(50% - 12px);
             max-width: calc(50% - 6px);
             height: auto;
             object-fit: cover;
@@ -217,11 +234,10 @@
             box-shadow: 1px 1px 6px rgba(0,0,0,0.12);
             transition: transform 0.2s ease;
         }
-        .grid-img:hover {
-            transform: scale(1.02); /* 마우스 올렸을 때 살짝 확대 */
+        .grid-img-2:hover {
+            transform: scale(1.02);
         }
-        /* 사진이 홀수개일 때 마지막 사진이 혼자 거대해지는 것을 방지 */
-        .image-grid::after {
+        .image-grid-2::after {
             content: "";
             flex: auto;
         }
@@ -229,7 +245,6 @@
 </head>
 <body>
 
-    <!-- 전체 줄공책 레이아웃 수용 객체 -->
     <div class="notebook">
         <header>
             <h1>Arrows</h1>
@@ -238,7 +253,6 @@
 
         <div class="log-title">기록일지</div>
 
-        <!-- 1. 아이디어 -->
         <div class="accordion-item">
             <button class="accordion-header">
                 <span>아이디어 (Idea)</span>
@@ -275,7 +289,6 @@
             </div>
         </div>
 
-        <!-- 2. 계획 -->
         <div class="accordion-item">
             <button class="accordion-header">
                 <span>계획 (Plan)</span>
@@ -317,7 +330,6 @@
             </div>
         </div>
 
-        <!-- 3. 타임라인과 결과 -->
         <div class="accordion-item">
             <button class="accordion-header">
                 <span>타임라인과 결과 (Timeline and Results)</span>
@@ -334,13 +346,11 @@
 
                     <p style="margin-top: 20px;"><strong>[ 화살표를 붙인 후 ]</strong></p>
                     <ul>
-                        <!-- 요구사항 2: 3 people -> 4 people 수정 -->
                         <li>6/8 (Mon): 4 people (9 AM – 9 PM)</li>
                         <li>6/9 (Tue): 0 people (...) (9 AM - 9 PM)</li>
                         <li>6/10 (Wed): 14 people (!!!) (9 AM - 9 PM)</li>
                     </ul>
 
-                    <!-- 6/6 -->
                     <div class="date-section">
                         <div class="date-badge">6/6</div>
                         <p>예상대로 평상시에 홍보물을 보는 사람은 매우 적었으며, 그 마저도 정수기에 물을 뜨거나 전자레인지를 쓰며 기다리는 사람들이 보는 것이었다.</p>
@@ -356,10 +366,8 @@
                             <li>시선 이동이 눈에 보이지 않음 (gaze movements would not be visible)</li>
                             <li>이미 촬영중임이 노출됨 (filming was already in progress had been exposed)</li>
                         </ul>
-                        <!-- 요구사항 1: 날짜별 초상권 안내 문구 삭제됨 -->
                     </div>
 
-                    <!-- 6/8 -->
                     <div class="date-section">
                         <div class="date-badge">6/8</div>
                         <p>촬영 양해를 구하는 포스트잇을 카메라에 붙였었는데, 사람들이 무언가 있다는 것을 알게 된 것 같아 화살표를 붙이고 난 후 그 문구가 적힌 포스트잇을 제거했다.</p>
@@ -376,10 +384,8 @@
                         
                         <p>카메라에 사람들의 시선이 다 담기지 않는다. 카메라 위치를 조정할 필요가 있어 보인다.</p>
                         <p class="eng-text">The camera does not capture everyone’s gaze. The camera position needs to be adjusted.</p>
-                        <!-- 요구사항 1: 날짜별 초상권 안내 문구 삭제됨 -->
                     </div>
 
-                    <!-- 6/9 -->
                     <div class="date-section">
                         <div class="date-badge">6/9</div>
                         <p>카메라를 소파 뒤 안보이는 곳으로 옮겼는데, 생각보다 효과가 별로 없었다.</p>
@@ -393,10 +399,8 @@
                         
                         <p>오히려 카메라가 없어서 포스터의 변화를 못 느끼는 것 같다. 카메라를 원래 위치로 옮기고, 화살표를 좀 더 굵게 만들어야겠다.</p>
                         <p class="eng-text">It seems that without the camera, people do not notice the change made to the posters. I decided to move the camera back to its original position and make the arrows bolder.</p>
-                        <!-- 요구사항 1: 날짜별 초상권 안내 문구 삭제됨 -->
                     </div>
 
-                    <!-- 6/10 -->
                     <div class="date-section">
                         <div class="date-badge">6/10</div>
                         <p>카메라를 원래 위치로 옮겼고, 화살표를 굵게 칠했다. 삼각대 아래에 포스터쪽을 가리키는 포스터잇을 하나 더 붙여 무언가 있다는 것을 알렸다.</p>
@@ -408,18 +412,16 @@
                         <p>카메라를 보고 포스터의 변화를 알아채는 사람들이 많았다.</p>
                         <p class="eng-text">Many people noticed the changes to the posters when they saw the camera.</p>
                         
-                        <p>몇몇 사람들은 포스터를 보고 이야기를 나누기도 했다.</p>
+                        <p>몇몇 사람들은 포스터을 보고 이야기를 나누기도 했다.</p>
                         <p class="eng-text">Some people even stopped to discuss the posters.</p>
                         
                         <p>나중에 CA께서 같은 자리에 시험 응원용 다과를 마련했는데, 이 이후로 포스터를 보는 사람이 줄었다. 이목이 다과로 쏠린 탓일까...</p>
                         <p class="eng-text">Later, the CA set up snacks for exam encouragement in the same spot, and after that, fewer people looked at the posters. Could it be that attention shifted to the snacks…?</p>
-                        <!-- 요구사항 1: 날짜별 초상권 안내 문구 삭제됨 -->
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 4. 후기 -->
         <div class="accordion-item">
             <button class="accordion-header">
                 <span>후기 (Comment)</span>
@@ -436,7 +438,6 @@
             </div>
         </div>
 
-        <!-- 5. 갤러리 -->
         <div class="accordion-item">
             <button class="accordion-header">
                 <span>갤러리 (Gallery)</span>
@@ -444,59 +445,62 @@
             </button>
             <div class="accordion-content">
                 <div class="accordion-body">
-                    <!-- 요구사항 1: 타임라인에 있던 초상권 안내 문구를 통합하여 최상단에 배치 -->
                     <div class="note">
                         (초상권 문제로 영상은 공개되지 않습니다) / (The video is not made public due to privacy concerns.)
                     </div>
                     
-                    <!-- 구역 1: 화살표 붙이기 전 -->
                     <div class="gallery-section">
                         <div class="gallery-title">화살표 붙이기 전 (Before attaching arrows)</div>
-                        <div class="image-grid">
-                            <img src="0-1.png" alt="Before 1" class="grid-img">
-                            <img src="0-2.png" alt="Before 2" class="grid-img">
-                            <img src="0-3.png" alt="Before 3" class="grid-img">
+                        <div class="image-grid-2">
+                            <img src="0-1.png" alt="Before 1" class="grid-img-2">
+                            <img src="0-2.png" alt="Before 2" class="grid-img-2">
+                            <img src="0-3.png" alt="Before 3" class="grid-img-2">
                         </div>
                     </div>
 
-                    <!-- 구역 2: 1일차 -->
                     <div class="gallery-section">
                         <div class="gallery-title">1일차 (Day 1, 6/8)</div>
-                        <div class="image-grid">
-                            <img src="1.jpeg" alt="Day 1 - 1" class="grid-img">
-                            <img src="1-1.png" alt="Day 1 - 2" class="grid-img">
-                            <img src="1-2.png" alt="Day 1 - 3" class="grid-img">
-                            <img src="1-3.png" alt="Day 1 - 4" class="grid-img">
-                            <img src="1-4.png" alt="Day 1 - 5" class="grid-img">
+                        <div class="image-grid-full">
+                            <img src="1.jpeg" alt="Day 1 - 1" class="full-img">
+                        </div>
+                        <div class="image-grid-2">
+                            <img src="1-1.png" alt="Day 1 - 2" class="grid-img-2">
+                            <img src="1-2.png" alt="Day 1 - 3" class="grid-img-2">
+                        </div>
+                        <div class="image-grid-2">
+                            <img src="1-3.png" alt="Day 1 - 4" class="grid-img-2">
+                            <img src="1-4.png" alt="Day 1 - 5" class="grid-img-2">
                         </div>
                     </div>
 
-                    <!-- 구역 3: 2일차 -->
                     <div class="gallery-section">
                         <div class="gallery-title">2일차 (Day 2, 6/9)</div>
-                        <div class="image-grid">
-                            <img src="2.jpeg" alt="Day 2 - 1" class="grid-img">
-                            <img src="2-1.png" alt="Day 2 - 2" class="grid-img">
+                        <div class="image-grid-2">
+                            <img src="2.jpeg" alt="Day 2 - 1" class="grid-img-2">
+                            <img src="2-1.png" alt="Day 2 - 2" class="grid-img-2">
                         </div>
                     </div>
 
-                    <!-- 구역 4: 3일차 -->
                     <div class="gallery-section">
                         <div class="gallery-title">3일차 (Day 3, 6/10)</div>
-                        <div class="image-grid">
-                            <img src="3.jpeg" alt="Day 3 - 1" class="grid-img">
-                            <img src="3-A.jpeg" alt="Day 3 - 2" class="grid-img">
-                            <img src="3-B.jpeg" alt="Day 3 - 3" class="grid-img">
-                            <img src="3-1.png" alt="Day 3 - 4" class="grid-img">
-                            <img src="3-2.png" alt="Day 3 - 5" class="grid-img">
-                            <img src="3-3.png" alt="Day 3 - 6" class="grid-img">
-                            <img src="3-4.png" alt="Day 3 - 7" class="grid-img">
-                            <img src="3-5.png" alt="Day 3 - 8" class="grid-img">
-                            <img src="3-6.png" alt="Day 3 - 9" class="grid-img">
-                            <img src="3-7.png" alt="Day 3 - 10" class="grid-img">
-                            <img src="3-8.png" alt="Day 3 - 11" class="grid-img">
-                            <img src="3-9.png" alt="Day 3 - 12" class="grid-img">
-                            <img src="3-10.png" alt="Day 3 - 13" class="grid-img">
+                        <div class="image-grid-2">
+                            <img src="3.jpeg" alt="Day 3 - 1" class="grid-img-2">
+                            <img src="3-A.jpeg" alt="Day 3 - 2" class="grid-img-2">
+                        </div>
+                        <div class="image-grid-full">
+                            <img src="3-B.jpeg" alt="Day 3 - 3" class="full-img">
+                        </div>
+                        <div class="image-grid-2">
+                            <img src="3-1.png" alt="Day 3 - 4" class="grid-img-2">
+                            <img src="3-2.png" alt="Day 3 - 5" class="grid-img-2">
+                            <img src="3-3.png" alt="Day 3 - 6" class="grid-img-2">
+                            <img src="3-4.png" alt="Day 3 - 7" class="grid-img-2">
+                            <img src="3-5.png" alt="Day 3 - 8" class="grid-img-2">
+                            <img src="3-6.png" alt="Day 3 - 9" class="grid-img-2">
+                            <img src="3-7.png" alt="Day 3 - 10" class="grid-img-2">
+                            <img src="3-8.png" alt="Day 3 - 11" class="grid-img-2">
+                            <img src="3-9.png" alt="Day 3 - 12" class="grid-img-2">
+                            <img src="3-10.png" alt="Day 3 - 13" class="grid-img-2">
                         </div>
                     </div>
 
@@ -507,7 +511,6 @@
     </div>
 
     <script>
-        // 아코디언 애니메이션 기능 개선 및 이미지 스크롤 제한 문제 해결
         document.querySelectorAll('.accordion-header').forEach(button => {
             button.addEventListener('click', () => {
                 const accordionItem = button.parentElement;
@@ -516,18 +519,14 @@
                 accordionItem.classList.toggle('active');
                 
                 if (accordionItem.classList.contains('active')) {
-                    // 1. 우선 현재 로드된 콘텐츠 크기만큼 부드럽게 열어줍니다.
                     content.style.maxHeight = content.scrollHeight + "px";
                     
-                    // 2. 애니메이션 트랜지션 완료(0.3초) 후 max-height 제한을 완전히 해제하는 확장 클래스를 부여합니다.
-                    // 이 처리를 해주어야 고용량/많은 사진이 뒤늦게 로딩되어도 스크롤이 끝까지 잘 작동합니다.
                     setTimeout(() => {
                         if (accordionItem.classList.contains('active')) {
                             content.classList.add('expanded');
                         }
                     }, 300);
                 } else {
-                    // 아코디언을 닫을 때는 높이 제한을 다시 걸어 수축시킵니다.
                     content.classList.remove('expanded');
                     content.style.maxHeight = content.scrollHeight + "px";
                     setTimeout(() => {
