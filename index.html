@@ -112,14 +112,14 @@
             background-color: #ffee55;
         }
 
-        /* 내용이 무제한으로 확장될 수 있도록 자바스크립트 제어용 max-height 설정 */
+        /* 내용 제어용 max-height 설정 */
         .accordion-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease-out;
         }
         
-        /* 아코디언이 완전히 열리면 스크롤 제한을 풀기 위해 클래스 추가 적용 */
+        /* 아코디언이 완전히 열리면 스크롤 제한 해제 */
         .accordion-item.active .accordion-content.expanded {
             max-height: none !important;
             overflow: visible;
@@ -175,7 +175,7 @@
             display: inline-block;
         }
 
-        /* 공통 이미지 스타일 (줄공책 위 인화지 감성) */
+        /* 공통 이미지 스타일 */
         .embedded-img {
             max-width: 100%;
             height: auto;
@@ -200,7 +200,7 @@
             margin-bottom: 12px;
         }
         
-        /* 사진 레이아웃 제어용 Flexbox 컨테이너들 */
+        /* 사진 배열 레이아웃용 컨테이너 */
         .image-grid-2 {
             display: flex;
             flex-wrap: wrap;
@@ -215,16 +215,21 @@
             margin-bottom: 12px;
         }
 
-        /* 1장 꽉 채우는 큰 이미지 스타일 */
+        /* 1장 꽉 채우는 큰 이미지 스타일 + 크게 보기 커서 추가 */
         .full-img {
             width: 100%;
             max-width: 100%;
             height: auto;
             border-radius: 4px;
             box-shadow: 2px 2px 8px rgba(0,0,0,0.15);
+            cursor: zoom-in; /* 돋보기 아이콘 커서 */
+            transition: transform 0.2s ease;
+        }
+        .full-img:hover {
+            transform: scale(1.01);
         }
 
-        /* 한 줄에 2장씩 들어가는 이미지 스타일 */
+        /* 한 줄에 2장씩 들어가는 이미지 스타일 + 크게 보기 커서 추가 */
         .grid-img-2 {
             flex: 1 1 calc(50% - 12px);
             max-width: calc(50% - 6px);
@@ -232,6 +237,7 @@
             object-fit: cover;
             border-radius: 4px;
             box-shadow: 1px 1px 6px rgba(0,0,0,0.12);
+            cursor: zoom-in; /* 돋보기 아이콘 커서 */
             transition: transform 0.2s ease;
         }
         .grid-img-2:hover {
@@ -240,6 +246,41 @@
         .image-grid-2::after {
             content: "";
             flex: auto;
+        }
+
+        /* 팝업 모달창 창 스타일 (기본 상태는 숨김 처리) */
+        .modal {
+            display: none; 
+            position: fixed;
+            z-index: 9999; /* 최상단에 띄우기 */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85); /* 주변을 어둡게 차단 */
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out; /* 닫기 커서 */
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+        /* 모달이 활성화되었을 때 */
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        /* 모달 안에 띄워질 확대 이미지 */
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 4px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            transform: scale(0.95);
+            transition: transform 0.25s ease;
+        }
+        .modal.show .modal-content {
+            transform: scale(1);
         }
     </style>
 </head>
@@ -412,7 +453,7 @@
                         <p>카메라를 보고 포스터의 변화를 알아채는 사람들이 많았다.</p>
                         <p class="eng-text">Many people noticed the changes to the posters when they saw the camera.</p>
                         
-                        <p>몇몇 사람들은 포스터을 보고 이야기를 나누기도 했다.</p>
+                        <p>몇몇 사람들은 포스터를 보고 이야기를 나누기도 했다.</p>
                         <p class="eng-text">Some people even stopped to discuss the posters.</p>
                         
                         <p>나중에 CA께서 같은 자리에 시험 응원용 다과를 마련했는데, 이 이후로 포스터를 보는 사람이 줄었다. 이목이 다과로 쏠린 탓일까...</p>
@@ -461,7 +502,7 @@
                     <div class="gallery-section">
                         <div class="gallery-title">1일차 (Day 1, 6/8)</div>
                         <div class="image-grid-full">
-                            <img src="2.jpeg" alt="Day 1 - 1" class="full-img">
+                            <img src="1.jpeg" alt="Day 1 - 1" class="full-img">
                         </div>
                         <div class="image-grid-2">
                             <img src="1-1.png" alt="Day 1 - 2" class="grid-img-2">
@@ -476,7 +517,7 @@
                     <div class="gallery-section">
                         <div class="gallery-title">2일차 (Day 2, 6/9)</div>
                         <div class="image-grid-2">
-                            <img src="1.jpeg" alt="Day 2 - 1" class="grid-img-2">
+                            <img src="2.jpeg" alt="Day 2 - 1" class="grid-img-2">
                             <img src="2-1.png" alt="Day 2 - 2" class="grid-img-2">
                         </div>
                     </div>
@@ -510,7 +551,12 @@
 
     </div>
 
+    <div id="imageModal" class="modal">
+        <img class="modal-content" id="modalTargetImg">
+    </div>
+
     <script>
+        // 1. 아코디언 관련 스크립트
         document.querySelectorAll('.accordion-header').forEach(button => {
             button.addEventListener('click', () => {
                 const accordionItem = button.parentElement;
@@ -534,6 +580,29 @@
                     }, 10);
                 }
             });
+        });
+
+        // 2. 사진 크게 보기(모달) 스크립트 추가
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalTargetImg');
+
+        // 갤러리 내의 모든 클릭 가능한 이미지 요소를 선택합니다.
+        document.querySelectorAll('.grid-img-2, .full-img').forEach(img => {
+            img.addEventListener('click', () => {
+                modal.style.display = "flex"; // 먼저 플렉스 레이아웃으로 변경 후
+                setTimeout(() => {
+                    modal.classList.add('show'); // 부드러운 페이드인 작동
+                }, 10);
+                modalImg.src = img.src; // 클릭된 이미지의 주소를 모달에 주입
+            });
+        });
+
+        // 크게 띄워진 어두운 배경이나 사진을 다시 클릭하면 모달 닫기
+        modal.addEventListener('click', () => {
+            modal.classList.remove('show'); // 페이드아웃 작동
+            setTimeout(() => {
+                modal.style.display = "none";
+            }, 250); // 트랜지션 시간이 지난 뒤 완전히 숨김
         });
     </script>
 </body>
