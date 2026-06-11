@@ -1,101 +1,338 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>Arrows - DS1 Protocol</title>
-  <style>
-    body { font-family: Arial, sans-serif; max-width: 900px; margin: 20px auto; line-height: 1.6; }
-    h1 { text-align: center; }
-    h2 { text-align: center; color: gray; margin-bottom: 40px; }
-    .accordion { background-color: #eee; cursor: pointer; padding: 15px; margin: 5px 0; border: none; text-align: left; outline: none; font-size: 18px; transition: 0.3s; }
-    .accordion:hover { background-color: #ccc; }
-    .panel { padding: 0 15px; display: none; background-color: white; overflow: hidden; }
-    .panel p, .panel ul { margin: 10px 0; }
-    .panel ul { padding-left: 20px; }
-    .ko { font-weight: bold; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arrows - DS1: Protocol</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #f9f9f9;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 5px;
+            color: #111;
+        }
+        .subtitle {
+            font-size: 1.5rem;
+            color: #666;
+            font-weight: 300;
+        }
+        .log-title {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #444;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
+        /* 아코디언 스타일 */
+        .accordion-item {
+            background-color: #fff;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+        }
+        .accordion-header {
+            width: 100%;
+            background-color: #fff;
+            padding: 20px;
+            font-size: 1.25rem;
+            font-weight: bold;
+            text-align: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s ease;
+        }
+        .accordion-header:hover {
+            background-color: #f5f5f5;
+        }
+        .accordion-header::after {
+            content: '▼';
+            font-size: 0.9rem;
+            color: #999;
+            transition: transform 0.2s ease;
+        }
+        .accordion-item.active .accordion-header::after {
+            transform: rotate(180deg);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background-color: #fff;
+        }
+        .accordion-body {
+            padding: 0 20px 25px 20px;
+            border-top: 1px solid #f0f0f0;
+        }
+        /* 콘텐츠 내부 스타일 */
+        p {
+            margin: 12px 0;
+            word-break: keep-all;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .eng-text {
+            color: #666;
+            font-style: italic;
+            font-size: 0.95rem;
+            margin-top: -4px;
+            margin-bottom: 16px;
+        }
+        .q-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-top: 20px;
+            margin-bottom: 4px;
+        }
+        .date-section {
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px dashed #ddd;
+        }
+        .date-badge {
+            display: inline-block;
+            background-color: #e2e8f0;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        .note {
+            color: #e53e3e;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+    </style>
 </head>
 <body>
 
-<h1>Arrows</h1>
-<h2>DS1: Protocol</h2>
+    <header>
+        <h1>Arrows</h1>
+        <div class="subtitle">DS1: Protocol</div>
+    </header>
 
-<button class="accordion">아이디어 / Idea</button>
-<div class="panel">
-  <ul>
-    <li><span class="ko">“Arrows”</span> / "Arrows"  
-      <ul>
-        <li><span class="ko">의미 없는 요소로 포스터를 보는 사람을 늘려보자.</span> / Let's try to increase the number of people looking at the posters by adding meaningless elements.</li>
-        <li><span class="ko">N25 건물 2층 휴게공간 앞 포스터가 붙어있는 공간이 있다...</span> / There is a space with posters in front of the lounge on the 2nd floor of the N25 building. Some people do not even realize that posters are there, and even if they do, few look at them closely. I want to subtly add small, indirect elements to increase the number of people paying attention to these posters.</li>
-        <li><span class="ko">프로토콜:</span> / Protocol: Arrow post-its are placed on each poster, pointing to a specific poster.</li>
-        <li><span class="ko">변화시키고 싶은 것:</span> / What to reveal: I wanted to make the intention of guiding people's attention invisible.</li>
-        <li><span class="ko">왜 화살표인가?</span> / Why this addition: The arrows don’t have any special meaning, but people look at the poster in the direction of the arrow, wondering if there is a hidden meaning.</li>
-        <li><span class="ko">예상 효과:</span> / Expected impact: With just a few arrows, people get curious, pay attention, and naturally read the posters in a certain direction.</li>
-      </ul>
-    </li>
-  </ul>
-</div>
+    <div class="log-title">[ 기록일지 ]</div>
 
-<button class="accordion">계획 / Plan</button>
-<div class="panel">
-  <ul>
-    <li><span class="ko">What:</span> / Place sticky notes with arrows pointing to specific posters</li>
-    <li><span class="ko">Where:</span> / On each poster in front of the 2nd-floor resting area</li>
-    <li><span class="ko">When:</span> / 6/2–6/5 no sticky notes, 6/8–6/10 with sticky notes, 9 AM–12 AM</li>
-    <li><span class="ko">How:</span> / Long-term observation using a time-lapse camera</li>
-    <li><span class="ko">Need:</span> / Unused phone with tripod, sticky notes with arrows</li>
-    <li><span class="ko">Problem:</span> / Permission to put sticky notes on posters, privacy/portrait rights</li>
-    <li><span class="ko">Beauty:</span> / Only sticky notes are added (no visible elements like QR codes), and the intention is subtle—sparking pure curiosity.</li>
-  </ul>
-</div>
+    <!-- 1. 아이디어 -->
+    <div class="accordion-item">
+        <button class="accordion-header">아이디어</button>
+        <div class="accordion-content">
+            <div class="accordion-body">
+                <p><strong>“Arrows”</strong></p>
+                <p>의미 없는 요소로 포스터를 보는 사람을 늘려보자.</p>
+                <p>N25 건물 2층 휴게공간 앞 포스터가 붙어있는 공간이 있다. 이 공간에 포스터가 붙어있는 줄 모르는 사람도 있고, 알더라도 포스터를 유심히 보는 사람들이 많이 없다. 직접적이지 않고 아주 사소한 요소를 더하여 이 포스터를 보는 사람들이 많아지도록 하고 싶다. 상세한 조건과 아이디어는 다음과 같다.</p>
+                <p class="eng-text">Let's try to increase the number of people looking at the posters by adding meaningless elements.<br>
+                There is a space with posters in front of the lounge on the 2nd floor of the N25 building. Some people do not even realize that posters are there, and even if they do, few look at them closely. I want to subtly add small, indirect elements to increase the number of people paying attention to these posters. The detailed conditions and ideas are as follows.</p>
 
-<button class="accordion">타임라인과 결과 / Timeline & Results</button>
-<div class="panel">
-  <ul>
-    <li><span class="ko">화살표 전 / Before arrows:</span>
-      <ul>
-        <li>6/4 (Thu): 1 person (12 PM – 9 PM)</li>
-        <li>6/5 (Fri): 2 people (10 AM – 9 PM)</li>
-        <li>6/6 (Sat): 0 people (10 AM – 5 PM)</li>
-      </ul>
-    </li>
-    <li><span class="ko">화살표 후 / After arrows:</span>
-      <ul>
-        <li>6/8 (Mon): 3 people (9 AM – 9 PM)</li>
-        <li>6/9 (Tue): 0 people (9 AM – 9 PM)</li>
-        <li>6/10 (Wed): 14 people (9 AM – 9 PM)</li>
-      </ul>
-    </li>
-    <li><span class="ko">관찰 내용:</span> / Observations:
-      <ul>
-        <li>6/6: Very few people looked at the posters; mostly waiting by water dispenser/microwave.</li>
-        <li>Camera move not possible due to charging, tripod visibility, gaze not visible, filming already exposed. (Video not public due to privacy concerns.)</li>
-        <li>6/8: Removed filming notice post-it; more people looked at posters, but camera drew more attention. Arrows not very noticeable; need bigger/brighter post-its. Camera doesn’t capture all gaze.</li>
-        <li>6/9: Camera behind sofa less effective; replaced post-its with brighter/larger ones. No one stopped to look. Camera moved back and arrows bolder. (Video not public due to privacy concerns.)</li>
-        <li>6/10: Camera back to original position; arrows bolder; extra post-it added. Huge success: 14 people read them; many noticed changes and discussed. After snacks, attention shifted away. (Video not public due to privacy concerns.)</li>
-      </ul>
-    </li>
-  </ul>
-</div>
+                <div class="q-title">What is the protocol of this site?</div>
+                <p>포스터마다 특정 포스터를 가리키는 화살표 포스터잇을 붙여놓는다.</p>
+                <p class="eng-text">Arrow post-it are placed on each poster, pointing to a specific poster.</p>
 
-<button class="accordion">후기 / Reflection</button>
-<div class="panel">
-  <p>직접적인 문구나 특별한 장치 없이 화살표 포스트잇을 붙인 것만으로 포스터를 보는 사람들이 늘어났다. / Simply by placing arrow Post-it notes without any direct message or special device, more people started looking at the posters.</p>
-  <p>처음에는 의도와 예상 반응과 다른 부분이 있었다. 계속 관찰하고 조정한 끝에 마지막 날 많은 반응을 이끌어냈다. / At first, there were some differences between intended and expected reactions. Observed people's reactions and continuously made adjustments, and on the last day, many responses were elicited.</p>
-  <p>명확한 의도가 없었기에 사람들의 호기심을 자극했고, 사람들이 서로 이야기하는 모습을 볼 수 있었다. / No clear or direct intention made curiosity arise, and people even discussed what it was, achieving the goal of making them reflect on the arrows.</p>
-  <p>타임랩스에는 소리 기록이 없어 어떤 반응이 오갔는지는 모르지만 매우 궁금하다. / Since the timelapse did not record sound, we do not know what reactions occurred among people, which is very curious.</p>
-</div>
+                <div class="q-title">What do you want to change, reveal, or make visible?</div>
+                <p>사람들의 시선을 이끌도록 의도하는 바가 겉으로 보이지 않게 하고 싶었다.</p>
+                <p class="eng-text">I wanted to make the intention of guiding people's attention invisible.</p>
 
-<script>
-  const acc = document.getElementsByClassName("accordion");
-  for (let i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", function() {
-      this.classList.toggle("active");
-      const panel = this.nextElementSibling;
-      panel.style.display = panel.style.display === "block" ? "none" : "block";
-    });
-  }
-</script>
+                <div class="q-title">Why this addition, and not something else?</div>
+                <p>사실은 특별한 의미가 없는 화살표이지만 사람들이 숨은 의미가 있는지 그 방향으로 포스터를 보게 된다.</p>
+                <p class="eng-text">The arrows don’t have any special meaning, but people look at the poster in the direction of the arrow, wondering if there is a hidden meaning.</p>
 
+                <div class="q-title">What impact do you expect it to bring?</div>
+                <p>화살표 몇 개 만으로 사람들이 신기한 마음에 관심을 가지고, 자연스럽게 특정 방향으로 홍보물을 읽게 된다.</p>
+                <p class="eng-text">With just a few arrows, people get curious, pay attention, and naturally read the posters in a certain direction.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. 계획 -->
+    <div class="accordion-item">
+        <button class="accordion-header">계획</button>
+        <div class="accordion-content">
+            <div class="accordion-body">
+                <ul>
+                    <li>
+                        <strong>What:</strong> 특정 포스터를 가리키는 화살표가 그려진 포스트잇 붙이기
+                        <p class="eng-text">Place sticky notes with arrows pointing to specific posters</p>
+                    </li>
+                    <li>
+                        <strong>Where:</strong> 2층 휴게공간 앞 포스터 각각에
+                        <p class="eng-text">On each poster in front of the 2nd-floor resting area</p>
+                    </li>
+                    <li>
+                        <strong>When:</strong> 6/2 - 6/5 (포스트잇 X), 6/8 - 6/10 (포스트잇 O), 아침 9시 - 밤 12시
+                        <p class="eng-text">6/2–6/5 no sticky notes, 6/8–6/10 with sticky notes, 9 AM–12 AM</p>
+                    </li>
+                    <li>
+                        <strong>How:</strong> 타임랩스 카메라를 이용한 장기관찰
+                        <p class="eng-text">Long-term observation using a time-lapse camera</p>
+                    </li>
+                    <li>
+                        <strong>Need:</strong> 안쓰는 폰과 삼각대, 화살표가 그려진 포스트잇
+                        <p class="eng-text">Unused phone with tripod, sticky notes with arrows</p>
+                    </li>
+                    <li>
+                        <strong>Problem?:</strong> 포스터 위 포스터잇을 붙여도 되는지에 대한 허락? 초상권 문제
+                        <p class="eng-text">Permission to put sticky notes on posters, privacy/portrait rights</p>
+                    </li>
+                    <li>
+                        <strong>Beauty:</strong> 군더더기 없는 과정의 아름다움을 추구한다. 포스트잇만 추가됨 (QR같은 눈에 보이는 무언가가 X), 의도가 잘 드러나지 않음. 순수 궁금증만 유발함.
+                        <p class="eng-text">Aim for the beauty of a minimal process. Only sticky notes are added (no visible elements like QR codes), and the intention is subtle—sparking pure curiosity.</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. 타임라인과 결과 -->
+    <div class="accordion-item">
+        <button class="accordion-header">타임라인과 결과</button>
+        <div class="accordion-content">
+            <div class="accordion-body">
+                <p><strong>[ 화살표를 붙이기 전 ]</strong></p>
+                <ul>
+                    <li>6/4 (Thu): 1 person (12 PM – 9 PM)</li>
+                    <li>6/5 (Fri): 2 people (10 AM – 9 PM)</li>
+                    <li>6/6 (Sat): 0 people (10 AM – 5 PM)</li>
+                </ul>
+
+                <p style="margin-top: 20px;"><strong>[ 화살표를 붙인 후 ]</strong></p>
+                <ul>
+                    <li>6/8 (Mon): 3 people (9 AM – 9 PM)</li>
+                    <li>6/9 (Tue): 0 people (...) (9 AM - 9 PM)</li>
+                    <li>6/10 (Wed): 14 people (!!!) (9 AM - 9 PM)</li>
+                </ul>
+
+                <!-- 6/6 -->
+                <div class="date-section">
+                    <div class="date-badge">6/6</div>
+                    <p>예상대로 평상시에 홍보물을 보는 사람은 매우 적었으며, 그 마저도 정수기에 물을 뜨거나 전자레인지를 쓰며 기다리는 사람들이 보는 것이었다.</p>
+                    <p class="eng-text">As expected, very few people normally looked at the posters, and those who did were mostly waiting by the water dispenser or using the microwave.</p>
+                    
+                    <p>카메라를 사람들이 안보이는 다른 곳에 위치시키려 했으나 다음과 같은 이유로 바꾸지 못하였다.</p>
+                    <ul>
+                        <li>폰 충전의 어려움 (hard to charge phone)</li>
+                        <li>삼각대가 더 눈에 띔 (tripod would make it more noticeable)</li>
+                        <li>시선 이동이 눈에 보이지 않음 (gaze movements would not be visible)</li>
+                        <li>이미 촬영중임이 노출됨 (filming was already in progress had been exposed)</li>
+                    </ul>
+                    <p class="note">(초상권 문제로 영상은 공개되지 않습니다) / (The video is not made public due to privacy concerns.)</p>
+                </div>
+
+                <!-- 6/8 -->
+                <div class="date-section">
+                    <div class="date-badge">6/8</div>
+                    <p>촬영 양해를 구하는 포스트잇을 카메라에 붙였었는데, 사람들이 무언가 있다는 것을 알게 된 것 같아 화살표를 붙이고 난 후 그 문구가 적힌 포스트잇을 제거했다.</p>
+                    <p class="eng-text">A post-it indicating that filming was in progress was attached to the camera, but it seemed that people noticed it. After putting up the arrows, that post-it was removed.</p>
+                    
+                    <p>포스터를 보는 사람들이 많아지긴 했다.</p>
+                    <p class="eng-text">More people looked at the posters.</p>
+                    
+                    <p>그러나 사람들은 바뀐 포스터보다 촬영중인 카메라에 더 관심을 보이는 것 같다. (교수님 포함)</p>
+                    <p class="eng-text">However, people seemed more interested in the filming camera than in the changed posters (including the professor).</p>
+                    
+                    <p>포스터에 화살표가 눈에 잘 안 띄는 것 같다. 내일 화살표 포스트잇을 좀 더 눈에 잘 띄는 크고 확실한 색으로 바꿀 필요가 있어 보인다.</p>
+                    <p class="eng-text">The arrows on the posters are not very noticeable. Tomorrow, the arrow post-its should be replaced with larger, more visible, and brighter-colored ones.</p>
+                    
+                    <p>카메라에 사람들의 시선이 다 담기지 않는다. 카메라 위치를 조정할 필요가 있어 보인다.</p>
+                    <p class="eng-text">The camera does not capture everyone’s gaze. The camera position needs to be adjusted.</p>
+                    <p class="note">(초상권 문제로 영상은 공개되지 않습니다) / (The video is not made public due to privacy concerns.)</p>
+                </div>
+
+                <!-- 6/9 -->
+                <div class="date-section">
+                    <div class="date-badge">6/9</div>
+                    <p>카메라를 소파 뒤 안보이는 곳으로 옮겼는데, 생각보다 효과가 별로 없었다.</p>
+                    <p class="eng-text">I moved the camera to a hidden spot behind the sofa, but it was less effective than expected.</p>
+                    
+                    <p>포스터잇을 더 크고 강렬한 색으로 바꾸었는데, 잘보이긴 했다.</p>
+                    <p class="eng-text">I replaced the Post-it notes with larger ones in brighter colors, and they were definitely more noticeable.</p>
+                    
+                    <p>놓친 장면이 있을 수 있지만 그 긴 시간 동안 멈춰서 보는 사람이 한명도 없었다. 당황스러웠다.</p>
+                    <p class="eng-text">There might have been some moments we missed, but no one stopped to look. It was quite surprising.</p>
+                    
+                    <p>오히려 카메라가 없어서 포스터의 변화를 못 느끼는 것 같다. 카메라를 원래 위치로 옮기고, 화살표를 좀 더 굵게 만들어야겠다.</p>
+                    <p class="eng-text">It seems that without the camera, people do not notice the change made to the posters. I decided to move the camera back to its original position and make the arrows bolder.</p>
+                    <p class="note">(초상권 문제로 영상은 공개되지 않습니다) / (The video is not made public due to privacy concerns.)</p>
+                </div>
+
+                <!-- 6/10 -->
+                <div class="date-section">
+                    <div class="date-badge">6/10</div>
+                    <p>카메라를 원래 위치로 옮겼고, 화살표를 굵게 칠했다. 삼각대 아래에 포스터쪽을 가리키는 포스터잇을 하나 더 붙여 무언가 있다는 것을 알렸다.</p>
+                    <p class="eng-text">I moved the camera back to its original position and made the arrows bolder. I also attached an additional Post-it note below the tripod pointing toward the posters to signal that there was something worth noticing.</p>
+                    
+                    <p>대성공이었다. 교수님 포함 14명이나 봤다.</p>
+                    <p class="eng-text">It was a huge success. 14 people(include Professor) read them.</p>
+                    
+                    <p>카메라를 보고 포스터의 변화를 알아채는 사람들이 많았다.</p>
+                    <p class="eng-text">Many people noticed the changes to the posters when they saw the camera.</p>
+                    
+                    <p>몇몇 사람들은 포스터를 보고 이야기를 나누기도 했다.</p>
+                    <p class="eng-text">Some people even stopped to discuss the posters.</p>
+                    
+                    <p>나중에 CA께서 같은 자리에 시험 응원용 다과를 마련했는데, 이 이후로 포스터를 보는 사람이 줄었다. 이목이 다과로 쏠린 탓일까...</p>
+                    <p class="eng-text">Later, the CA set up snacks for exam encouragement in the same spot, and after that, fewer people looked at the posters. Could it be that attention shifted to the snacks…?</p>
+                    <p class="note">(초상권 문제로 영상은 공개되지 않습니다) / (The video is not made public due to privacy concerns.)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. 후기 -->
+    <div class="accordion-item">
+        <button class="accordion-header">후기</button>
+        <div class="accordion-content">
+            <div class="accordion-body">
+                <p>직접적인 문구나 특별한 장치 없이 화살표 포스트잇을 붙인 것만으로 포스터를 보는 사람들이 늘어났다.</p>
+                <p>처음에는 의도와 예상 반응과 다른 부분이 있었다. 그래서 사람들의 반응을 보고 계속해서 보완을 했는데, 마지막날 많은 반응을 이끌어내서 기뻤다. 명확하고 직접적인 의도가 없었기에 사람들의 궁금증을 이끌어내기 좋았으며, 저게 무엇인지 사람들끼리 이야기하는 반응도 나와 화살표에 대해 생각해보도록 하는 목표를 달성했다. 타임랩스에는 소리 녹음이 안되기에 사람들 사이에서 어떤 반응이 오고갔는지는 모르는데, 매우 궁금하다.</p>
+                
+                <p class="eng-text" style="margin-top: 20px;">Simply by placing arrow Post-it notes without any direct message or special device, more people started looking at the posters.<br><br>
+                At first, there were some differences between the intended and expected reactions. We observed people's reactions and continuously made adjustments, and on the last day, we were glad to elicit many responses. Because there was no clear or direct intention, it was effective in arousing curiosity, and people even discussed among themselves what it was, achieving the goal of making them reflect on the arrows. Since the timelapse did not record sound, we do not know what reactions occurred among people, which makes me very curious.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 아코디언 메뉴 작동을 위한 자바스크립트
+        document.querySelectorAll('.accordion-header').forEach(button => {
+            button.addEventListener('click', () => {
+                const accordionItem = button.parentElement;
+                const content = accordionItem.querySelector('.accordion-content');
+                
+                // 활성화 토글
+                accordionItem.classList.toggle('active');
+                
+                if (accordionItem.classList.contains('active')) {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                } else {
+                    content.style.maxHeight = "0";
+                }
+            });
+        });
+    </script>
 </body>
 </html>
