@@ -162,6 +162,57 @@
             font-size: 0.9rem;
             margin-top: 10px;
         }
+
+        /* 공통 이미지 스타일 (줄공책 위 인화지 감성) */
+        .embedded-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.15);
+            margin: 15px 0;
+        }
+
+        /* 갤러리 섹션 내부 스타일 */
+        .gallery-section {
+            margin-top: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #ddd;
+        }
+        .gallery-section:last-child {
+            border-bottom: none;
+        }
+        .gallery-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        /* 사진들을 두 줄 형태로 고르게 배치하기 위한 Flexbox 컨테이너 */
+        .image-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 10px;
+        }
+        /* 그리드 내 이미지 스타일 (반응형으로 2줄 정렬 최적화) */
+        .grid-img {
+            flex: 1 1 calc(50% - 12px); /* 한 줄에 기본적으로 2장씩 배치 */
+            max-width: calc(50% - 6px);
+            height: auto;
+            object-fit: cover;
+            border-radius: 4px;
+            box-shadow: 1px 1px 6px rgba(0,0,0,0.12);
+            transition: transform 0.2s ease;
+        }
+        .grid-img:hover {
+            transform: scale(1.02); /* 마우스 올렸을 때 살짝 확대 */
+        }
+        /* 사진이 3장일 때 마지막 사진이 너무 커지는 걸 방지하기 위한 예외 처리 */
+        .image-grid::after {
+            content: "";
+            flex: auto;
+        }
     </style>
 </head>
 <body>
@@ -181,6 +232,10 @@
             </button>
             <div class="accordion-content">
                 <div class="accordion-body">
+                    <div style="text-align: center;">
+                        <img src="3.jpeg" alt="Arrows 대표 이미지" class="embedded-img" style="max-height: 400px;">
+                    </div>
+
                     <p><strong>“Arrows”</strong></p>
                     <p>의미 없는 요소로 포스터를 보는 사람을 늘려보자.</p>
                     <p>N25 건물 2층 휴게공간 앞 포스터가 붙어있는 공간이 있다. 이 공간에 포스터가 붙어있는 줄 모르는 사람도 있고, 알더라도 포스터를 유심히 보는 사람들이 많이 없다. 직접적이지 않고 아주 사소한 요소를 더하여 이 포스터를 보는 사람들이 많아지도록 하고 싶다. 상세한 조건과 아이디어는 다음과 같다.</p>
@@ -273,6 +328,9 @@
                         <p>예상대로 평상시에 홍보물을 보는 사람은 매우 적었으며, 그 마저도 정수기에 물을 뜨거나 전자레인지를 쓰며 기다리는 사람들이 보는 것이었다.</p>
                         <p class="eng-text">As expected, very few people normally looked at the posters, and those who did were mostly waiting by the water dispenser or using the microwave.</p>
                         
+                        <p>6/5에 포스터 한 장이 떨어져 위태롭게 붙어있었는데, 아무도 이를 신경쓰지 않았다.</p>
+                        <p class="eng-text">On June 5th, one of the posters had fallen and was hanging precariously, but no one paid any attention to it.</p>
+
                         <p>카메라를 사람들이 안보이는 다른 곳에 위치시키려 했으나 다음과 같은 이유로 바꾸지 못하였다.</p>
                         <ul>
                             <li>폰 충전의 어려움 (hard to charge phone)</li>
@@ -355,6 +413,66 @@
                 </div>
             </div>
         </div>
+
+        <div class="accordion-item">
+            <button class="accordion-header">
+                <span>갤러리 (Gallery)</span>
+                <div class="postit-arrow">→</div>
+            </button>
+            <div class="accordion-content">
+                <div class="accordion-body">
+                    
+                    <div class="gallery-section">
+                        <div class="gallery-title">화살표 붙이기 전 (Before attaching arrows)</div>
+                        <div class="image-grid">
+                            <img src="0-1.png" alt="Before 1" class="grid-img">
+                            <img src="0-2.png" alt="Before 2" class="grid-img">
+                            <img src="0-3.png" alt="Before 3" class="grid-img">
+                        </div>
+                    </div>
+
+                    <div class="gallery-section">
+                        <div class="gallery-title">1일차 (Day 1, 6/8)</div>
+                        <div class="image-grid">
+                            <img src="1.jpeg" alt="Day 1 - 1" class="grid-img">
+                            <img src="1-1.png" alt="Day 1 - 2" class="grid-img">
+                            <img src="1-2.png" alt="Day 1 - 3" class="grid-img">
+                            <img src="1-3.png" alt="Day 1 - 4" class="grid-img">
+                            <img src="1-4.png" alt="Day 1 - 5" class="grid-img">
+                        </div>
+                    </div>
+
+                    <div class="gallery-section">
+                        <div class="gallery-title">2일차 (Day 2, 6/9)</div>
+                        <div class="image-grid">
+                            <img src="2.jpeg" alt="Day 2 - 1" class="grid-img">
+                            <img src="2-1.png" alt="Day 2 - 2" class="grid-img">
+                        </div>
+                    </div>
+
+                    <div class="gallery-section">
+                        <div class="gallery-title">3일차 (Day 3, 6/10)</div>
+                        <div class="image-grid">
+                            <img src="3.jpeg" alt="Day 3 - 1" class="grid-img">
+                            <img src="3-A.jpeg" alt="Day 3 - 2" class="grid-img">
+                            <img src="3-B.jpeg" alt="Day 3 - 3" class="grid-img">
+                            <img src="3-1.png" alt="Day 3 - 4" class="grid-img">
+                            <img src="3-2.png" alt="Day 3 - 5" class="grid-img">
+                            <img src="3-3.png" alt="Day 3 - 6" class="grid-img">
+                            <img src="3-4.png" alt="Day 3 - 7" class="grid-img">
+                            <img src="3-5.png" alt="Day 3 - 8" class="grid-img">
+                            <img src="3-6.png" alt="Day 3 - 9" class="grid-img">
+                            <img src="3-7.png" alt="Day 3 - 10" class="grid-img">
+                            <img src="3-8.png" alt="Day 3 - 11" class="grid-img">
+                            <img src="3-9.png" alt="Day 3 - 12" class="grid-img">
+                            <img src="3-10.png" alt="Day 3 - 13" class="grid-img">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script>
